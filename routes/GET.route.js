@@ -3,10 +3,9 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-module.exports = function routes(router) {
-    
-    router.get("/", showHelloPage )
-    
+module.exports = function routes(router) {    
+    router.get("/", showHelloPage)    
+    router.get("/:collection/", selectAllFromCollection)  
 }
 
 var showHelloPage = function(req,resp){
@@ -15,3 +14,7 @@ var showHelloPage = function(req,resp){
     })
 }
 
+
+var selectAllFromCollection = function(req,resp){    
+    req.db_adapter.selectAll(req.params.collection, resp)
+}

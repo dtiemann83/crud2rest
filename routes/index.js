@@ -4,7 +4,7 @@ exports.attachRoutes = function attachRoutes (server) {
         for(file in files){
             if(files[file].match(/\.route\.js$/)){
                 require("./" + files[file])(server);
-                console.dir("Route File: "+ files[file]);
+                console.log("Route File: "+ files[file]);
             }
         }
     });
