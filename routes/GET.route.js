@@ -1,11 +1,8 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+var url = require('url');
+
 module.exports = function routes(router) {    
     router.get("/", showHelloPage)    
-    router.get("/:collection/", selectAllFromCollection)  
+    router.get("/:collection/:limit?", selectFromCollection)    
 }
 
 var showHelloPage = function(req,resp){
@@ -14,7 +11,9 @@ var showHelloPage = function(req,resp){
     })
 }
 
-
-var selectAllFromCollection = function(req,resp){    
-    req.db_adapter.selectAll(req.params.collection, resp)
+var selectFromCollection = function(req,resp){           
+    var query = url.parse(req.url, true).query;
+    req.db_adapter.select(req.params.collection, query,req.params.limit, resp)
 }
+
+
