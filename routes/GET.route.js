@@ -1,8 +1,9 @@
 var url = require('url');
 
 module.exports = function routes(router) {    
-    router.get("/", showHelloPage)    
-    router.get("/:collection/:limit?", selectFromCollection)    
+    router.get("/", showHelloPage)
+    router.get("/:collection/:id?", selectFromCollection)
+    //router.get("/:collection/:limit?", selectFromCollection)    
 }
 
 var showHelloPage = function(req,resp){
@@ -13,7 +14,16 @@ var showHelloPage = function(req,resp){
 
 var selectFromCollection = function(req,resp){           
     var query = url.parse(req.url, true).query;
-    req.db_adapter.select(req.params.collection, query,req.params.limit, resp)
+    var limit
+    if(query.limit){
+        limit = query.limit
+        delete query.limit
+    }
+    if(req.params.id)
+        query._id = req.params.id
+    req.db_adapter.select(req.params.collection, query,limit, resp)
 }
+
+
 
 
