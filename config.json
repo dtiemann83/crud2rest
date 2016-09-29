@@ -1,12 +1,12 @@
 {
     "http":{
-        "port":9080        
+        "port":9080
     },
     "database":{
         "type": "mongodb",
         "host":"localhost",
         "user":"",
         "port":27017,
-        "schema":"test"
+        "schema":"libutti-jewelers"
     }
 }

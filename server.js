@@ -8,11 +8,11 @@ app.use(bodyparser())
 var routes = require("./routes")
 routes.attachRoutes(app)
 
-console.log("Configuring Database.(" + GLOBAL.config.database.type + ")")
-var db_adapter = require("./db_adapters/" + GLOBAL.config.database.type +".adapter.js");
-db_adapter.configure(GLOBAL.config.database)
+console.log("Configuring Database.(" + global.config.database.type + ")")
+var db_adapter = require("./db_adapters/" + global.config.database.type +".adapter.js");
+db_adapter.configure(global.config.database)
 express.request.db_adapter = db_adapter
 
-app.listen(GLOBAL.config.http.port,function(){
-    console.log('Accepting incoming requests: ' + GLOBAL.config.http.port)
+app.listen(global.config.http.port,function(){
+    console.log('Accepting incoming requests: ' + global.config.http.port)
 })
