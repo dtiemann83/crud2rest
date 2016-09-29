@@ -1,6 +1,6 @@
 var express = require('express')
 var bodyparser = require('body-parser')
-GLOBAL.config = require("./config.json")
+global.config = require("./config.json")
 
 var app = express()
 app.use(bodyparser())
