@@ -3,14 +3,15 @@
         "port":9080
     },
     "database":{
-        "type": "mongodb",
-        "host":"localhost",
-        "user":"",
-        "port":27017,
-        "schema":"libutti-jewelers"
+        "type": "mssql",
+        "host":"wsfile1",
+        "user":"sa",
+				"password" : "EdgeSA22",
+        "port": "",
+        "schema": "EdgeSQL"
     },
 		"auth" : {
-			"mode" : "token",
+			"mode" : "none",
 			"token_length" : 32
 		}
 }

@@ -1,9 +1,11 @@
-var url = require('url');
+var url = require('url'), _ = require('underscore')
 
-module.exports = function routes(router) {   
-    router.delete("/:collection/:id", deleteFromCollection);
+module.exports = function routes(router) {
+    router.delete("/:collection/:id?", deleteFromCollection);
 }
 
-var deleteFromCollection = function(req,resp){   
-    req.db_adapter.delete(req.params.collection, {_id:req.params.id}, resp)
+var deleteFromCollection = function(req,resp){
+		//console.log(req)
+		var prms = _.extend({_id: req.params.id }, req.body || req.query)
+    req.db_adapter.delete(req.params.collection, prms, resp)
 }
