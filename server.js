@@ -1,14 +1,17 @@
-var express = require('express')
-var bodyparser = require('body-parser')
+var express = require('express'), bodyparser = require('body-parser'), path = require('path')
 global.config = require("./config.json")
+global.appRoot = path.resolve(__dirname);
 
 var app = express()
 app.use(bodyparser())
 
+var auth = require('./auth')
+auth(app)
+
 var routes = require("./routes")
 routes.attachRoutes(app)
 
-console.log("Configuring Database.(" + global.config.database.type + ")")
+console.log("Configuring Database...(" + global.config.database.type + ")")
 var db_adapter = require("./db_adapters/" + global.config.database.type +".adapter.js");
 db_adapter.configure(global.config.database)
 express.request.db_adapter = db_adapter

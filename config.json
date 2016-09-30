@@ -8,5 +8,9 @@
         "user":"",
         "port":27017,
         "schema":"libutti-jewelers"
-    }
+    },
+		"auth" : {
+			"mode" : "token",
+			"token_length" : 32
+		}
 }
