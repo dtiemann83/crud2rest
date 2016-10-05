@@ -15,7 +15,7 @@ module.exports = exports = {
 				.replace("#port", cfg.port ? ":" + cfg.port : "")
 	    //return cstr
 	},
-	db_return : function(resp, db) {
+	db_return : function(resp) {
 	    return function(err, results){
 	        if (err){
 						console.dir(err)
@@ -24,9 +24,7 @@ module.exports = exports = {
 
 	        if(typeof results == "number")
 	            results = { success : results }
-	        resp.json( { success : true, result : results })
-					if(db)
-	        	db.close()
+	        resp.json( { success : true, result : results })					
 	    }
 	},
 	error_return : errReturn
