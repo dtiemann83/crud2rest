@@ -21,6 +21,8 @@ git clone git@github.com:dtiemann83/crud2rest.git
 
 Edit config.json with proper database settings
 
+
+
 #### config.json Options
 
 | Section	| Option | Description | Values | Default |
