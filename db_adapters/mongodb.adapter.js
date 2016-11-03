@@ -1,5 +1,14 @@
-var mongodb = require('mongodb'), aShared = require('./adapterShared.js'), format = require('util').format, _ = require('underscore')
+var mongodb = require('mongodb'), aShared = require('./adapterShared.js'), util = require('util'),format = util.format, _ = require('underscore')
 var connectionString, db
+
+var scrubQuery = function(query){
+	_.each(query, function(val, key){
+		if(!isNaN(val)){
+			query[key] = parseFloat(val)
+		}
+	})
+}
+
 module.exports = {
     configure: function(cfg) {
         connectionString = aShared.makeConnectionString('mongodb',cfg)
@@ -11,12 +20,22 @@ module.exports = {
     },
     select: function(coll, query, lim, resp) {
         var collection = db.collection(coll)
-        if (query._id)
-            query._id = new mongodb.ObjectID(query._id)
-        collection.find(query, {limit: lim}).toArray(aShared.db_return(resp))
+        if(query._id){
+					if(util.isArray(query._id)){
+							query._id = { $in : _.map(query._id,function(idval){
+								return new mongodb.ObjectID(idval)
+							}) }
+					}
+					else
+						query._id = new mongodb.ObjectID(query._id)
+				}
+				scrubQuery(query)
+        collection.find(query || {}, {limit: lim}).toArray(aShared.db_return(resp))
     },
     insert: function(coll, data, resp) {
         var collection = db.collection(coll)
+				delete data._id
+				scrubQuery(data)
         collection.insert(data,  aShared.db_return(resp));
     },
     delete : function(coll, data, resp){
@@ -31,12 +50,14 @@ module.exports = {
 					return aShared.error_return(resp, 400, "_id field is currently required.")
 				query = { _id : new mongodb.ObjectID(objid) }
 				var uns = {}
+				delete data._id
 				_.each(data,function(v,k){
 					if(v === null){
 						uns[k] = 1
 						delete data[k]
 					}
 				})
+				scrubQuery(data)
 				var upd = {}
 				if(_.keys(data).length)
 					upd['$set'] = data
@@ -44,7 +65,6 @@ module.exports = {
 					upd['$unset'] = uns
 				if(!_.keys(upd).length)
 					return aShared.error_return(resp, 400, "Nothing to update")
-				// return resp.send(query)
 				collection.update(query, upd , aShared.db_return(resp))
 		}
 }

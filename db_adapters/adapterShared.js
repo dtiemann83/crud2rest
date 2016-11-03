@@ -12,8 +12,7 @@ module.exports = exports = {
 	    return "#dbtype://#creds#host#port/#schema".replace("#dbtype", dbtype)
 				.replace("#creds", cfg.user ? [cfg.user, cfg.password].join(":") + "@" : "")
 				.replace("#host", cfg.host).replace("#schema", cfg.schema)
-				.replace("#port", cfg.port ? ":" + cfg.port : "")
-	    //return cstr
+				.replace("#port", cfg.port ? ":" + cfg.port : "")	    
 	},
 	db_return : function(resp) {
 	    return function(err, results){
@@ -24,7 +23,7 @@ module.exports = exports = {
 
 	        if(typeof results == "number")
 	            results = { success : results }
-	        resp.json( { success : true, result : results })					
+	        resp.json( { success : true, result : results })
 	    }
 	},
 	error_return : errReturn

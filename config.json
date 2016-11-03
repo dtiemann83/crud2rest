@@ -11,7 +11,7 @@
         "schema": "order-tracker"
     },
 		"auth" : {
-			"mode" : "none",
+			"mode" : "token",
 			"token_length" : 32
 		}
 }
