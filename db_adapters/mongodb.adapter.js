@@ -1,8 +1,11 @@
 var mongodb = require('mongodb'), aShared = require('./adapterShared.js'), util = require('util'),format = util.format, _ = require('underscore')
 var connectionString, db
 
-var scrubQuery = function(query){
+var scrubQuery = function(query, sel){
 	_.each(query, function(val, key){
+		if(util.isArray(val) && sel){
+			query[key] = { $in : val }
+		}
 		if(!isNaN(val)){
 			query[key] = parseFloat(val)
 		}
@@ -29,7 +32,7 @@ module.exports = {
 					else
 						query._id = new mongodb.ObjectID(query._id)
 				}
-				scrubQuery(query)
+				scrubQuery(query, true)
         collection.find(query || {}, {limit: lim}).toArray(aShared.db_return(resp))
     },
     insert: function(coll, data, resp) {
