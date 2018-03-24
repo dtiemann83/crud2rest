@@ -2,6 +2,11 @@ var express = require('express'), bodyparser = require('body-parser'), path = re
 global.config = require("./config.json")
 global.appRoot = path.resolve(__dirname);
 
+if(process.env.DB_HOST)
+  global.config.database.host = process.env.DB_HOST
+
+console.log(global.config.database)
+
 var app = express()
 app.use(bodyparser())
 
